@@ -1,58 +1,57 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UniRx;
 
 public class StartLoading : MonoBehaviour
 {
     [SerializeField] Slider ProgressBar;
     [SerializeField] TextMeshProUGUI ProgressText;
 
-    List<Action> LoadingAction;
+    Dictionary<string,Action> LoadingAction = new Dictionary<string, Action>();
     IDisposable disposable;
 
 
     void Awake()
     {
-        LoadingAction = new List<Action>();
         ProgressBar.value = 0;
         ProgressText.text = "Loading";
 
-
-        LoadingAction.Add(SliderChangeFill);
-        LoadingAction.Add(LoadMainMenu);
+        LoadingAction.Add("LoadDatabase", LoadDatabase);
+        LoadingAction.Add("LoadMainMenu",LoadMainMenu);
     }
 
 
     void Start()
     {
-        foreach(var action in LoadingAction)
+        ProgressBar.maxValue = LoadingAction.Count;
+        foreach (var action in LoadingAction)
         {
-            action.Invoke();
             ProgressBar.value++;
-            ProgressText.text = $"{ProgressBar.value}/{LoadingAction.Count}";
+            ProgressText.text = $"{action.Key} ({ProgressBar.value}/{LoadingAction.Count})";
+            
+            action.Value.Invoke();
         }
-    }
-
-
-    void SliderChangeFill()
-    {
-        disposable?.Dispose();
-        var color = ProgressBar.fillRect.GetComponent<Image>().color;
-        color.b += 0.1f;
-        disposable = Observable.Interval(TimeSpan.FromSeconds(3)).Subscribe(_=> 
-        {
-            color.b += 0.1f;
-            ProgressBar.fillRect.GetComponent<Image>().color = color;
-        });
     }
 
     void LoadMainMenu()
     {
-        var Prefab = Resources.Load("Mainmenu") as GameObject;
+        var Prefab = Resources.Load("MainMenu") as GameObject;
         GameObject.Instantiate(Prefab, this.transform.parent);
+    }
+
+    void LoadDatabase()
+    {
+        //create a list to hold all the values
+        List<string> excelData = new List<string>();
+
+        //read the Excel file as byte array
+        byte[] bin = File.ReadAllBytes($"{Application.dataPath}/Assets/DataBase/DataBase.xlsx");
+
+        using (MemoryStream stream = new MemoryStream(bin))
+        {
+        }
     }
 }
