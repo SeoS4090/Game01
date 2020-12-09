@@ -5,7 +5,7 @@ using UnityEngine;
 public partial class Core : MonoBehaviour
 {
     static Core pthis = null;
-
+    public UserDataManager userDataMangaer;
     public static Core Instance()
     {
         if (pthis == null)
