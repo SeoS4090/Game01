@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -52,6 +53,15 @@ public class StartLoading : MonoBehaviour
 
         using (MemoryStream stream = new MemoryStream(bin))
         {
+            using(ExcelPackage excelPackage = new ExcelPackage(stream))
+            {
+                foreach(var workSheet in excelPackage.Workbook.Worksheets)
+                {
+                    GameUtils.Log($"{workSheet.Name} 읽기");
+
+
+                }
+            }
         }
     }
 }
