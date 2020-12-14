@@ -1,5 +1,4 @@
-﻿using OfficeOpenXml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
@@ -49,19 +48,5 @@ public class StartLoading : MonoBehaviour
         List<string> excelData = new List<string>();
 
         //read the Excel file as byte array
-        byte[] bin = File.ReadAllBytes($"{Application.dataPath}/Assets/DataBase/DataBase.xlsx");
-
-        using (MemoryStream stream = new MemoryStream(bin))
-        {
-            using(ExcelPackage excelPackage = new ExcelPackage(stream))
-            {
-                foreach(var workSheet in excelPackage.Workbook.Worksheets)
-                {
-                    GameUtils.Log($"{workSheet.Name} 읽기");
-
-
-                }
-            }
-        }
     }
 }
