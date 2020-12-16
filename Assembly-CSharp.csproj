@@ -64,17 +64,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Item_Shop.cs" />
     <Compile Include="Assets\Script\Core\Core.cs" />
     <Compile Include="Assets\Script\Core\Core_Popup.cs" />
-    <Compile Include="Assets\Script\Core\DataBase\MSP_Game_Base.cs" />
-    <Compile Include="Assets\Script\Core\DataBase\MSP_Shop.cs" />
     <Compile Include="Assets\Script\Core\UserDataManager.cs" />
     <Compile Include="Assets\Script\CustomInspector.cs" />
     <Compile Include="Assets\Script\GameUtils\Defines.cs" />
     <Compile Include="Assets\Script\GameUtils\GameUtils.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Game_Base.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Shop.cs" />
     <Compile Include="Assets\Script\Mainmenu.cs" />
     <Compile Include="Assets\Script\StartLoading.cs" />
+    <Compile Include="Assets\Script\UI\Item_Shop.cs" />
     <Compile Include="Assets\Script\UI\UI_Popup_Shop.cs" />
     <Compile Include="Assets\Script\UI\UI_Popup_YesNo.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -275,11 +275,11 @@
     <Reference Include="UnityEditor">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.15f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:/Users/ab409/OneDrive/Desktop/GitHub/Game01/Assets/Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers">
       <HintPath>C:/Users/ab409/OneDrive/Desktop/GitHub/Game01/Assets/Plugins/System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions">
-      <HintPath>C:/Users/ab409/OneDrive/Desktop/GitHub/Game01/Assets/Plugins/System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory">
       <HintPath>C:/Users/ab409/OneDrive/Desktop/GitHub/Game01/Assets/Plugins/System.Memory.dll</HintPath>
@@ -287,8 +287,8 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
       <HintPath>C:/Users/ab409/OneDrive/Desktop/GitHub/Game01/Assets/Plugins/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/Users/ab409/OneDrive/Desktop/GitHub/Game01/Assets/Newtonsoft.Json.dll</HintPath>
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>C:/Users/ab409/OneDrive/Desktop/GitHub/Game01/Assets/Plugins/System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.15f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
