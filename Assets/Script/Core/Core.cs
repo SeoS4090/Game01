@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public partial class Core : MonoBehaviour
 {
     static Core pthis = null;
     public UserDataManager userDataMangaer;
+
+
     public static Core Instance()
     {
         if (pthis == null)
@@ -18,6 +21,17 @@ public partial class Core : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this);
+
+        PopupPool = new GameObject().AddComponent<Canvas>();
+        PopupPool.sortingOrder = 2;
+        PopupPool.renderMode = RenderMode.ScreenSpaceOverlay;
+
+        PopupPool.gameObject.AddComponent<GraphicRaycaster>();
+        
+        var Scaler = PopupPool.gameObject.AddComponent<CanvasScaler>();
+        Scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+        Scaler.referenceResolution = new Vector2(720, 1280);
+
         DontDestroyOnLoad(PopupPool);
         pthis = this;
     }
