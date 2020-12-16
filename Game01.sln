@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UniRx.Examples", "UniRx.Exa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{BA8C1C99-4AC5-A5D5-F1FE-D89C1F04231D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagePack", "MessagePack.csproj", "{0551E155-9E15-6C75-557D-E7F2C025E2B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagePack.Annotations", "MessagePack.Annotations.csproj", "{C91E3CC5-073C-04D6-BA17-D66528770265}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +29,14 @@ Global
 		{BA8C1C99-4AC5-A5D5-F1FE-D89C1F04231D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA8C1C99-4AC5-A5D5-F1FE-D89C1F04231D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA8C1C99-4AC5-A5D5-F1FE-D89C1F04231D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0551E155-9E15-6C75-557D-E7F2C025E2B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0551E155-9E15-6C75-557D-E7F2C025E2B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0551E155-9E15-6C75-557D-E7F2C025E2B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0551E155-9E15-6C75-557D-E7F2C025E2B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C91E3CC5-073C-04D6-BA17-D66528770265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C91E3CC5-073C-04D6-BA17-D66528770265}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C91E3CC5-073C-04D6-BA17-D66528770265}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C91E3CC5-073C-04D6-BA17-D66528770265}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
