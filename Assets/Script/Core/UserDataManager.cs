@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
+using Newtonsoft.Json;
 
 public class UserDataManager : MonoBehaviour
 {
@@ -12,24 +14,35 @@ public class UserDataManager : MonoBehaviour
         if(Data.Count <= 0)
         {
             var SavedData = File.ReadAllText($"{Application.persistentDataPath}/UserData.txt");
-            Data = JsonUtility.FromJson<Dictionary<string, string>>(SavedData);
+            Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(SavedData);
         }
-
-
 
         if (DataName == null)
             DataName = "";
         if (Data.ContainsKey(DataName))
             return Data[DataName];
-        else return null;
+        else return "";
     }
+
+    public int GetData_int(string DataName, int defaultValue = 0)
+    {
+        var data = GetData(DataName);
+        if (data == "")
+        {
+            SetData(DataName, "0");
+            return defaultValue;
+        }
+
+        return Convert.ToInt32(data);
+    }
+
 
     public void SetData(string DataName, string data)
     {
         if (Data.Count <= 0)
         {
             var SavedData = File.ReadAllText($"{Application.persistentDataPath}/UserData.txt");
-            Data = JsonUtility.FromJson<Dictionary<string, string>>(SavedData);
+            Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(SavedData);
         }
 
         if (Data.ContainsKey(DataName))
@@ -50,7 +63,7 @@ public class UserDataManager : MonoBehaviour
             di.Create();
         }
 
-        var data = JsonUtility.ToJson(this);
+        var data = JsonConvert.SerializeObject(Data);
         File.WriteAllText($"{Application.persistentDataPath}/UserData.txt", data);
         GameUtils.Log("Complete Save UserData");
     }

@@ -39,14 +39,14 @@ public class StartLoading : MonoBehaviour
     void LoadMainMenu()
     {
         var Prefab = Resources.Load("MainMenu") as GameObject;
-        GameObject.Instantiate(Prefab, this.transform.parent);
+        var obj = GameObject.Instantiate(Prefab, this.transform.parent);
+        Core.Instance().mainmenu = obj.GetComponent<Mainmenu>();
     }
 
     void LoadDatabase()
     {
-        //create a list to hold all the values
-        List<string> excelData = new List<string>();
+        Core.Instance().dataManager.ReadAllDataBase();
 
-        //read the Excel file as byte array
+
     }
 }

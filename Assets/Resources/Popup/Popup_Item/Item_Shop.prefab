@@ -133,7 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.9150943, g: 0.6113277, b: 0.26330543, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -263,6 +263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d53b9a1a313b54d988b6f09302aa13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Icon: {fileID: 5987906429338594754}
+  Buy_image: {fileID: 5987906430958698750}
+  Buy_Amount: {fileID: 5987906430881151179}
 --- !u!1 &5987906430881151177
 GameObject:
   m_ObjectHideFlags: 0

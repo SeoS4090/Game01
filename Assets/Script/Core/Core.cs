@@ -7,7 +7,8 @@ public partial class Core : MonoBehaviour
 {
     static Core pthis = null;
     public UserDataManager userDataMangaer;
-
+    public DataBaseManager dataManager;
+    [HideInInspector] public Mainmenu mainmenu;
 
     public static Core Instance()
     {

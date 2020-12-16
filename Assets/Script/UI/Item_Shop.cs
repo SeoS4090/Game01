@@ -16,4 +16,21 @@ public class Item_Shop : MonoBehaviour
     {
         GameUtils.Log($"Buy {Data}");
     }
+
+    public void SetData(MSP_Shop data)
+    {
+        Data = data;
+
+        Icon.sprite = Core.Instance().GetIcon($"Image_Shop/{data.Icon}");
+
+        if(Core.Instance().dataManager.Item_ETC.ContainsKey(data.Goods))
+        {
+            var ProductItem = Core.Instance().dataManager.Item_ETC[data.Goods];
+            Buy_image.sprite = Core.Instance().GetIcon(ProductItem.Image);
+        }
+        
+        Buy_Amount.text = data.GoodsAmount.ToString();
+
+    }
+
 }

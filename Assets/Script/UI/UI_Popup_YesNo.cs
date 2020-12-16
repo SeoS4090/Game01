@@ -57,11 +57,11 @@ public class UI_Popup_YesNo : MonoBehaviour
 
     public void Onclick_Yes()
     {
-        Action_yes.Invoke();
+        Action_yes?.Invoke();
     }
 
     public void Onclick_No()
     {
-        Action_No.Invoke();
+        Action_No?.Invoke();
     }
 }

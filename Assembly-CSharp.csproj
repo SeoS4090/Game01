@@ -66,15 +66,25 @@
   <ItemGroup>
     <Compile Include="Assets\Script\Core\Core.cs" />
     <Compile Include="Assets\Script\Core\Core_Popup.cs" />
+    <Compile Include="Assets\Script\Core\Core_Resource.cs" />
+    <Compile Include="Assets\Script\Core\DataBaseManager.cs" />
     <Compile Include="Assets\Script\Core\UserDataManager.cs" />
     <Compile Include="Assets\Script\CustomInspector.cs" />
     <Compile Include="Assets\Script\GameUtils\Defines.cs" />
     <Compile Include="Assets\Script\GameUtils\GameUtils.cs" />
     <Compile Include="Assets\Script\MSP\MSP_Game_Base.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Generate\MessagePack_Formatters_MSP_Game_BaseFormatter.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Generate\MessagePack_Formatters_MSP_Item_ETCFormatter.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Generate\MessagePack_Formatters_MSP_LocalizationFormatter.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Generate\MessagePack_Formatters_MSP_ShopFormatter.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Generate\MessagePack_Resolvers_GeneratedResolver.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Item_ETC.cs" />
+    <Compile Include="Assets\Script\MSP\MSP_Localization.cs" />
     <Compile Include="Assets\Script\MSP\MSP_Shop.cs" />
     <Compile Include="Assets\Script\Mainmenu.cs" />
     <Compile Include="Assets\Script\StartLoading.cs" />
     <Compile Include="Assets\Script\UI\Item_Shop.cs" />
+    <Compile Include="Assets\Script\UI\UI_Popup_SetNickName.cs" />
     <Compile Include="Assets\Script\UI\UI_Popup_Shop.cs" />
     <Compile Include="Assets\Script\UI\UI_Popup_YesNo.cs" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -93,6 +103,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\Nanum_Gothic_Coding\OFL.txt" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
