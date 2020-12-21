@@ -12,6 +12,9 @@ public class MSP_Shop
     [Key(4)] public string Icon;
     [Key(5)] public string Description;
     [Key(6)] public string Name;
+    [Key(7)] public string Reward_Item;
+    [Key(8)] public int Reward_Count;
+
 
     public MSP_Shop() { }
 
@@ -24,6 +27,9 @@ public class MSP_Shop
         Icon = Convert.ToString(Data.Value["Icon"]);
         Description = Convert.ToString(Data.Value["Description"]);
         Name = Convert.ToString(Data.Value["Name"]);
+
+        Reward_Item = Convert.ToString(Data.Value["Reward_Item"]);
+        Reward_Count = Convert.ToInt32(Data.Value["Reward_Count"]);
     }
 
 }

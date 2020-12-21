@@ -15,6 +15,12 @@ public class Item_Shop : MonoBehaviour
     void Click_Buy()
     {
         GameUtils.Log($"Buy {Data}");
+        Core.Instance().adsManager.ShowRewarded(() => {
+
+            var CurrentData = Core.Instance().userDataMangaer.GetData(Data.)
+            Core.Instance().userDataMangaer.SetData()
+        });
+
     }
 
     public void SetData(MSP_Shop data)

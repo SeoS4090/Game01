@@ -8,6 +8,7 @@ public partial class Core : MonoBehaviour
     static Core pthis = null;
     public UserDataManager userDataMangaer;
     public DataBaseManager dataManager;
+    public AdsManager adsManager;
     [HideInInspector] public Mainmenu mainmenu;
 
     public static Core Instance()
