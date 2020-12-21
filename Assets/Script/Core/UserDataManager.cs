@@ -62,6 +62,9 @@ public class UserDataManager : MonoBehaviour
             Data.Add(DataName, data);
 
         SaveFile();
+
+
+
     }
 
     public void SaveFile()

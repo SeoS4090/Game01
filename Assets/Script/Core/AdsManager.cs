@@ -53,7 +53,11 @@ public class AdsManager : MonoBehaviour
         if(CompleteAction != null)
         {
             GameUtils.LogError("광고 보상 진행중");
+            return;
         }
+
+        CompleteAction = Complete_Action;
+
         if (Advertisement.IsReady())
         {
             var options = new ShowOptions { resultCallback = HandleShowResult };
