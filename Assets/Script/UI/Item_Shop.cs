@@ -12,13 +12,13 @@ public class Item_Shop : MonoBehaviour
 
     string itemName;
     MSP_Shop Data;
-    void Click_Buy()
+    public void Click_Buy()
     {
         GameUtils.Log($"Buy {Data}");
         Core.Instance().adsManager.ShowRewarded(() => {
 
-            var CurrentData = Core.Instance().userDataMangaer.GetData(Data.)
-            Core.Instance().userDataMangaer.SetData()
+            var CurrentData = Core.Instance().userDataMangaer.GetData_int(Data.Reward_Item);
+            Core.Instance().userDataMangaer.SetData(Data.Reward_Item, $"{CurrentData + Data.Reward_Count}");
         });
 
     }

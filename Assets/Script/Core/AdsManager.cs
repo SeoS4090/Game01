@@ -8,6 +8,21 @@ using UnityEngine.UI;
 public class AdsManager : MonoBehaviour
 {
     Action CompleteAction = null;
+    private void Start()
+    {
+        if(Advertisement.isInitialized == false)
+        {
+
+            string Gameid = Define.str_GooglePlayStore_Game_ID;
+            if(Application.platform == RuntimePlatform.IPhonePlayer)
+            {
+                Gameid = Define.str_AppleStore_Game_ID;
+            }
+
+            Advertisement.Initialize(Gameid, Define.b_TestMode);
+        }
+    }
+
     private void HandleShowResult(ShowResult result)
     {
         switch (result)
@@ -20,7 +35,10 @@ public class AdsManager : MonoBehaviour
                 }
                 break;
             case ShowResult.Skipped:
-                Debug.Log("The ad was skipped before reaching the end.");
+                {
+                    Debug.Log("The ad was skipped before reaching the end.");
+                }
+
                 break;
             case ShowResult.Failed:
                 Debug.LogError("The ad failed to be shown.");
