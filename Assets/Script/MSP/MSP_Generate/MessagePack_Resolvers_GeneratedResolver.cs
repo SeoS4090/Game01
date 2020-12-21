@@ -49,15 +49,16 @@ namespace MessagePack.Resolvers
 
         static GeneratedResolverGetFormatterHelper()
         {
-            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(7)
+            lookup = new global::System.Collections.Generic.Dictionary<Type, int>(8)
             {
                 { typeof(global::System.Collections.Generic.List<float>), 0 },
                 { typeof(global::System.Collections.Generic.List<int>), 1 },
                 { typeof(global::System.Collections.Generic.List<string>), 2 },
                 { typeof(global::MSP_Game_Base), 3 },
-                { typeof(global::MSP_Item_ETC), 4 },
-                { typeof(global::MSP_Localization), 5 },
-                { typeof(global::MSP_Shop), 6 },
+                { typeof(global::MSP_Game_Stage), 4 },
+                { typeof(global::MSP_Item_ETC), 5 },
+                { typeof(global::MSP_Localization), 6 },
+                { typeof(global::MSP_Shop), 7 },
             };
         }
 
@@ -75,9 +76,10 @@ namespace MessagePack.Resolvers
                 case 1: return new global::MessagePack.Formatters.ListFormatter<int>();
                 case 2: return new global::MessagePack.Formatters.ListFormatter<string>();
                 case 3: return new MessagePack.Formatters.MSP_Game_BaseFormatter();
-                case 4: return new MessagePack.Formatters.MSP_Item_ETCFormatter();
-                case 5: return new MessagePack.Formatters.MSP_LocalizationFormatter();
-                case 6: return new MessagePack.Formatters.MSP_ShopFormatter();
+                case 4: return new MessagePack.Formatters.MSP_Game_StageFormatter();
+                case 5: return new MessagePack.Formatters.MSP_Item_ETCFormatter();
+                case 6: return new MessagePack.Formatters.MSP_LocalizationFormatter();
+                case 7: return new MessagePack.Formatters.MSP_ShopFormatter();
                 default: return null;
             }
         }

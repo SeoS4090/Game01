@@ -13,8 +13,14 @@ public class UserDataManager : MonoBehaviour
     {
         if(Data.Count <= 0)
         {
-            var SavedData = File.ReadAllText($"{Application.persistentDataPath}/UserData.txt");
-            Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(SavedData);
+            if (File.Exists($"{Application.persistentDataPath}/UserData.txt"))
+            {
+                var SavedData = File.ReadAllText($"{Application.persistentDataPath}/UserData.txt");
+                Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(SavedData);
+            }
+            else
+                Data = new Dictionary<string, string>();
+            
         }
 
         if (DataName == null)
@@ -41,8 +47,13 @@ public class UserDataManager : MonoBehaviour
     {
         if (Data.Count <= 0)
         {
-            var SavedData = File.ReadAllText($"{Application.persistentDataPath}/UserData.txt");
-            Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(SavedData);
+            if (File.Exists($"{Application.persistentDataPath}/UserData.txt"))
+            {
+                var SavedData = File.ReadAllText($"{Application.persistentDataPath}/UserData.txt");
+                Data = JsonConvert.DeserializeObject<Dictionary<string, string>>(SavedData);
+            }
+            else
+                Data = new Dictionary<string, string>();
         }
 
         if (Data.ContainsKey(DataName))
