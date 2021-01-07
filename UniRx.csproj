@@ -486,6 +486,9 @@
     <Reference Include="UnityEditor.Android.Extensions">
       <HintPath>D:/Unity/2019.4.15f1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:/Unity/Project/Game01/Assets/Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -500,9 +503,6 @@
     </Reference>
     <Reference Include="System.Threading.Tasks.Extensions">
       <HintPath>D:/Unity/Project/Game01/Assets/Plugins/System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
-      <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:/Unity/2019.4.15f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

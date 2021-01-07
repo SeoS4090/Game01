@@ -32,12 +32,15 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(5);
+            writer.WriteArrayHeader(8);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.DataKey, options);
-            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.Load_Game_Data, options);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.Scores, options);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<string>>().Serialize(ref writer, value.GameType_Name, options);
             formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.GameType_Count, options);
+            writer.Write(value.Width);
+            writer.Write(value.Height);
+            formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Serialize(ref writer, value.Map, options);
+            writer.Write(value.ClearCount);
         }
 
         public global::MSP_Game_Stage Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -51,10 +54,13 @@ namespace MessagePack.Formatters
             IFormatterResolver formatterResolver = options.Resolver;
             var length = reader.ReadArrayHeader();
             var __DataKey__ = default(string);
-            var __Load_Game_Data__ = default(string);
             var __Scores__ = default(global::System.Collections.Generic.List<int>);
             var __GameType_Name__ = default(global::System.Collections.Generic.List<string>);
             var __GameType_Count__ = default(global::System.Collections.Generic.List<int>);
+            var __Width__ = default(int);
+            var __Height__ = default(int);
+            var __Map__ = default(global::System.Collections.Generic.List<int>);
+            var __ClearCount__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -64,16 +70,25 @@ namespace MessagePack.Formatters
                         __DataKey__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
                     case 1:
-                        __Load_Game_Data__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
-                        break;
-                    case 2:
                         __Scores__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
                         break;
-                    case 3:
+                    case 2:
                         __GameType_Name__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<string>>().Deserialize(ref reader, options);
                         break;
-                    case 4:
+                    case 3:
                         __GameType_Count__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
+                        break;
+                    case 4:
+                        __Width__ = reader.ReadInt32();
+                        break;
+                    case 5:
+                        __Height__ = reader.ReadInt32();
+                        break;
+                    case 6:
+                        __Map__ = formatterResolver.GetFormatterWithVerify<global::System.Collections.Generic.List<int>>().Deserialize(ref reader, options);
+                        break;
+                    case 7:
+                        __ClearCount__ = reader.ReadInt32();
                         break;
                     default:
                         reader.Skip();
@@ -83,10 +98,13 @@ namespace MessagePack.Formatters
 
             var ____result = new global::MSP_Game_Stage();
             ____result.DataKey = __DataKey__;
-            ____result.Load_Game_Data = __Load_Game_Data__;
             ____result.Scores = __Scores__;
             ____result.GameType_Name = __GameType_Name__;
             ____result.GameType_Count = __GameType_Count__;
+            ____result.Width = __Width__;
+            ____result.Height = __Height__;
+            ____result.Map = __Map__;
+            ____result.ClearCount = __ClearCount__;
             reader.Depth--;
             return ____result;
         }

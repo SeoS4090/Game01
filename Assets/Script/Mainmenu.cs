@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MessagePack;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Windows;
 
 public class Mainmenu : MonoBehaviour
 {
@@ -49,6 +51,22 @@ public class Mainmenu : MonoBehaviour
     {
         var shop = Core.Instance().ShowAndGet<UI_Popup_Shop>("UI_Popup_Shop");
         shop.SetView(UI_Popup_Shop.ShopKinds.Shop_Gold);
+    }
+
+    public void StartGame(string stage)
+    {
+        string path = $"{Application.dataPath}/Resources/DataBase/MapData/{stage}.bytes";
+        var bytes = File.ReadAllBytes(path);
+        var StageData = MessagePackSerializer.Deserialize<MSP_Game_Stage>(bytes);
+
+        Core.Instance().ShowAndGet<InGame>("InGame").SetMap(StageData);
+
+    }
+
+    public void Onclick_RecentGameStage()
+    {
+        var recentStage = Core.Instance().userDataMangaer.GetData_int("RecentStage",1);
+        StartGame($"Map_Stage_{recentStage}");
     }
 
 }

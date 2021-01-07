@@ -24,7 +24,7 @@ public partial class Core : MonoBehaviour
     {
         DontDestroyOnLoad(this);
 
-        PopupPool = new GameObject().AddComponent<Canvas>();
+        PopupPool = new GameObject("PopupPool").AddComponent<Canvas>();
         PopupPool.sortingOrder = 2;
         PopupPool.renderMode = RenderMode.ScreenSpaceOverlay;
 
@@ -37,5 +37,7 @@ public partial class Core : MonoBehaviour
         DontDestroyOnLoad(PopupPool);
         pthis = this;
     }
+
+
 
 }

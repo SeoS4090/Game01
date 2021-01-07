@@ -9,6 +9,23 @@ public class UserDataManager : MonoBehaviour
 {
     Dictionary<string, string> Data = new Dictionary<string, string>();
 
+    public string GetDailyData(string DataName)
+    {
+        var data = GetData(DataName);
+        var setDate = GetData_long($"{DataName}_SetDate");
+
+        if (new DateTime(setDate).Day < DateTime.Now.Day)
+            data = "";
+
+        return data;
+    }
+
+    public void SetDailyData(string DataName, string data)
+    {
+        SetData(DataName, data);
+        SetData($"{DataName}_SetDate", DateTime.Now.Ticks.ToString());
+    }
+
     public string GetData(string DataName)
     {
         if(Data.Count <= 0)
@@ -35,11 +52,23 @@ public class UserDataManager : MonoBehaviour
         var data = GetData(DataName);
         if (data == "")
         {
-            SetData(DataName, "0");
+            SetData(DataName, defaultValue.ToString());
             return defaultValue;
         }
 
         return Convert.ToInt32(data);
+    }
+
+    public long GetData_long(string DataName, int defaultValue = 0)
+    {
+        var data = GetData(DataName);
+        if (data == "")
+        {
+            SetData(DataName, defaultValue.ToString());
+            return defaultValue;
+        }
+
+        return Convert.ToInt64(data);
     }
 
 
@@ -63,6 +92,11 @@ public class UserDataManager : MonoBehaviour
 
         SaveFile();
 
+
+        if(Define.Update_Mainmenu_list.Contains(DataName) == true)
+        {
+            Core.Instance().mainmenu.Refresh_Top();
+        }
 
 
     }

@@ -32,7 +32,7 @@ namespace MessagePack.Formatters
             }
 
             IFormatterResolver formatterResolver = options.Resolver;
-            writer.WriteArrayHeader(7);
+            writer.WriteArrayHeader(9);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.DataKey, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.Goods, options);
             writer.Write(value.GoodsAmount);
@@ -40,6 +40,8 @@ namespace MessagePack.Formatters
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.Icon, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.Description, options);
             formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.Name, options);
+            formatterResolver.GetFormatterWithVerify<string>().Serialize(ref writer, value.Reward_Item, options);
+            writer.Write(value.Reward_Count);
         }
 
         public global::MSP_Shop Deserialize(ref MessagePackReader reader, global::MessagePack.MessagePackSerializerOptions options)
@@ -59,6 +61,8 @@ namespace MessagePack.Formatters
             var __Icon__ = default(string);
             var __Description__ = default(string);
             var __Name__ = default(string);
+            var __Reward_Item__ = default(string);
+            var __Reward_Count__ = default(int);
 
             for (int i = 0; i < length; i++)
             {
@@ -85,6 +89,12 @@ namespace MessagePack.Formatters
                     case 6:
                         __Name__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
                         break;
+                    case 7:
+                        __Reward_Item__ = formatterResolver.GetFormatterWithVerify<string>().Deserialize(ref reader, options);
+                        break;
+                    case 8:
+                        __Reward_Count__ = reader.ReadInt32();
+                        break;
                     default:
                         reader.Skip();
                         break;
@@ -99,6 +109,8 @@ namespace MessagePack.Formatters
             ____result.Icon = __Icon__;
             ____result.Description = __Description__;
             ____result.Name = __Name__;
+            ____result.Reward_Item = __Reward_Item__;
+            ____result.Reward_Count = __Reward_Count__;
             reader.Depth--;
             return ____result;
         }

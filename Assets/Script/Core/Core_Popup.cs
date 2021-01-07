@@ -32,8 +32,4 @@ public partial class Core : MonoBehaviour
     {
         Pool[Popupname].SetActive(false);
     }
-    private void Update()
-    {
-        int a = 0;
-    }
 }

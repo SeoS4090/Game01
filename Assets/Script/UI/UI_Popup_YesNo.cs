@@ -30,6 +30,10 @@ public class UI_Popup_YesNo : MonoBehaviour
 
     public UI_Popup_YesNo SetView(string Context, string title = "")
     {
+        Text_Yes.transform.parent.gameObject.SetActive(false);
+        Text_Yes.transform.parent.gameObject.SetActive(false);
+
+
         Text_Context.text = Context;
         Text_Title.text = title;
         
@@ -43,7 +47,8 @@ public class UI_Popup_YesNo : MonoBehaviour
     {
         Text_Yes.transform.parent.gameObject.SetActive(true);
         Text_Yes.text = Yes;
-        Action_yes = action;
+        Action_yes = hide;
+        Action_yes += action;
         return this;
     }
 
@@ -51,7 +56,8 @@ public class UI_Popup_YesNo : MonoBehaviour
     {
         Text_No.transform.parent.gameObject.SetActive(true);
         Text_No.text = No;
-        Action_No = action;
+        Action_No = hide;
+        Action_No += action;
         return this;
     }
 
