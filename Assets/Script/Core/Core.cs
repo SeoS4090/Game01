@@ -9,6 +9,8 @@ public partial class Core : MonoBehaviour
     public UserDataManager userDataMangaer;
     public DataBaseManager dataManager;
     public AdsManager adsManager;
+
+    public InGame ingame;
     [HideInInspector] public Mainmenu mainmenu;
 
     public static Core Instance()
