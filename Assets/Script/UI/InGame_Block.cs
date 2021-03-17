@@ -6,23 +6,28 @@ using UnityEngine.UI;
 public class InGame_Block : MonoBehaviour
 {
     [SerializeField] List<Sprite> NormalBlock = new List<Sprite>();
-    public Image Img_Block;
-    Vector2 pos;
+    public Image Img_Block { 
+        get
+            {
+                return GetComponent<Image>();
+            }
+        set { } }
     
-
-    public void SetNormalBlock(int x , int y)
+    public void SetNormalBlock()
     {
         #region 
         Img_Block.sprite = GetNormalBlock();
-
-        pos = new Vector2(x, y);
 
         #endregion
     }
 
     public Vector2 GetPos()
     {
-        return pos;
+        Vector2 vec = GetComponent<RectTransform>().anchoredPosition;
+        vec.x = (int) vec.x / 64 ;
+        vec.y = (int) vec.y / 64;
+
+        return vec;
     }
 
 
@@ -49,7 +54,7 @@ public class InGame_Block : MonoBehaviour
 
         }
 
-        GameUtils.Log($"[Error] Block index {pos}");
+        GameUtils.Log($"[Error] Block index {GetPos()}");
         return -1;
     }
 

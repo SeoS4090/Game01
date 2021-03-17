@@ -8,9 +8,12 @@ using System.Collections;
 
 public class InGame : MonoBehaviour
 {
+    [SerializeField] RectTransform InGameBackGroundRect;
+    [SerializeField] GameObject BackGroundTile; 
+
     [SerializeField] RectTransform InGameRect;
     [SerializeField] Transform Pool;
-    [SerializeField] GameObject Oritin_Tile;
+    [SerializeField] GameObject Origin_Tile;
 
 
     [SerializeField] TextMeshProUGUI Turn;
@@ -36,6 +39,9 @@ public class InGame : MonoBehaviour
             obj.gameObject.SetActive(false);
         }
 
+        InGameRect.GetComponent<RectTransform>().sizeDelta = new Vector2(stage.Width * 64 , stage.Height * 64);
+
+
         LoadMap(stage);
         Initalize = true;
 
@@ -52,6 +58,10 @@ public class InGame : MonoBehaviour
         for (int i = InGameRect.childCount - 1; i >= 0; i--)
         {
             InGameRect.GetChild(i).SetParent(Pool);
+        }
+        for (int i = InGameBackGroundRect.childCount - 1; i >= 0; i--)
+        {
+            InGameBackGroundRect.GetChild(i).SetParent(Pool);
         }
 
         Core.Instance().Hide(this.name.Replace("(Clone)", ""));
@@ -72,6 +82,7 @@ public class InGame : MonoBehaviour
 
     public void LoadMap(MSP_Game_Stage stage)
     {
+        selectedBlock = null;
 
         blocks.Clear();
 
@@ -92,19 +103,36 @@ public class InGame : MonoBehaviour
         Changer.text = Core.Instance().userDataMangaer.GetData_int("Item_ETC_Changer").ToString();
         Hammer.text = Core.Instance().userDataMangaer.GetData_int("Item_ETC_Hammer").ToString();
 
-        #region 맵 생성
+        #region BG 맵 생성
 
 
         for (int y = 0; y < stage.Height; y++)
         {
             for (int x = 0; x < stage.Width; x++)
             {
-                var obj = GetorAdd($"Tile_{x}_{y}", InGameRect);
+                var obj = GetorAdd(BackGroundTile,$"BG_Tile_{x}_{y}", InGameBackGroundRect);
 
                 obj.gameObject.GetOrAddComponent<RectTransform>().sizeDelta = new Vector2(64, 64);
                 obj.gameObject.GetOrAddComponent<RectTransform>().anchoredPosition = new Vector3(64 * (x - stage.Width / 2), 64 * (stage.Height / 2 - y));
+                //obj.gameObject.GetComponent<InGame_Block>().SetNormalBlock(x, y);
+                //blocks.Add(obj.gameObject.GetComponent<InGame_Block>());
+            }
+        }
 
-                obj.gameObject.GetComponent<InGame_Block>().SetNormalBlock(x, y);
+        #endregion
+
+        #region 인게임 타일 생성
+
+        for (int y = 0; y < stage.Height; y++)
+        {
+            for (int x = 0; x < stage.Width; x++)
+            {
+                var obj = GetorAdd(Origin_Tile, $"Tile_{new Vector2(64 * (x - stage.Width / 2), 64 * (stage.Height / 2 - y))}", InGameRect);
+
+                obj.gameObject.GetOrAddComponent<RectTransform>().sizeDelta = new Vector2(64, 64);
+                obj.gameObject.GetOrAddComponent<RectTransform>().anchoredPosition = new Vector3(64 * (x - stage.Width / 2), 64 * (stage.Height / 2 - y));
+                obj.gameObject.GetComponent<InGame_Block>().SetNormalBlock();
+                obj.name = $"Tile_{obj.GetComponent<InGame_Block>().GetPos()}";
 
                 blocks.Add(obj.gameObject.GetComponent<InGame_Block>());
             }
@@ -112,28 +140,130 @@ public class InGame : MonoBehaviour
 
         #endregion
 
+        CheckMap();
     }
 
-    public Transform GetorAdd(string Name = "", Transform parent = null)
+    public void CheckMap()
+    {
+        bool bcheckmap = false;
+        do
+        {
+            bcheckmap = false;
+            foreach (var block in blocks)
+            {
+                #region 가로 체크
+
+                InGame_Block[] horizon_arr = new InGame_Block[stage.Width];
+
+                foreach (var tile in blocks)
+                {
+                    if (tile.GetPos().y != block.GetPos().y)
+                        continue;
+
+                    int index = (int)tile.GetPos().x + (int)(stage.Width / 2);
+                    horizon_arr[index] = tile;
+                }
+
+
+                List<InGame_Block> H_clearBlock = new List<InGame_Block>();
+                for (int i = 0; i < stage.Width; i++)
+                {
+
+                    if (horizon_arr[i].GetIndex() != block.GetIndex())
+                    {
+                        if (H_clearBlock.Count < 3)
+                            H_clearBlock.Clear();
+
+                        continue;
+                    }
+
+                    H_clearBlock.Add(horizon_arr[i]);
+                }
+
+                if (H_clearBlock.Count < 3)
+                    H_clearBlock.Clear();
+                else
+                {
+
+                    GameUtils.Log("가로 찾음");
+                    block.SetNormalBlock();
+                    bcheckmap = true;
+                }
+
+
+                #endregion
+
+                #region 세로 체크
+
+                InGame_Block[] vertical_arr = new InGame_Block[stage.Height];
+
+                foreach (var tile in blocks)
+                {
+                    if (tile.GetPos().x != block.GetPos().x)
+                        continue;
+
+                    int index = (int)tile.GetPos().y + (int)(stage.Height / 2);
+                    vertical_arr[index] = tile;
+                }
+
+
+                List<InGame_Block> V_clearBlock = new List<InGame_Block>();
+                for (int i = 0; i < stage.Height; i++)
+                {
+
+                    if (vertical_arr[i].GetIndex() != block.GetIndex())
+                    {
+                        if (V_clearBlock.Count < 3)
+                            V_clearBlock.Clear();
+
+                        continue;
+                    }
+
+                    V_clearBlock.Add(vertical_arr[i]);
+                }
+
+                if (V_clearBlock.Count < 3)
+                    V_clearBlock.Clear();
+
+                else
+                {
+
+                    GameUtils.Log("세로 찾음");
+                    block.SetNormalBlock();
+                    bcheckmap = true;
+                }
+
+                #endregion
+
+            }
+
+        } while (bcheckmap) ;
+
+    }
+
+    public Transform GetorAdd(GameObject origin, string Name = "", Transform parent = null)
     {
         GameObject obj;
 
-        if (Pool.childCount > 0)
+        var temp = Pool.Find(Name);
+        if (temp == null)
         {
-            obj = Pool.GetChild(0).gameObject;
+            obj = GameObject.Instantiate(origin);
         }
         else
-            obj = GameObject.Instantiate(Oritin_Tile);
+        {
+            obj = temp.gameObject;
+            GameUtils.Log($"Recycle {Name}");
+        }
 
         if (Name != "")
             obj.name = Name;
+
+
         obj.transform.SetParent(parent);
 
         obj.gameObject.SetActive(true);
-
-
-        obj.GetComponent<InGame_Block>().Img_Block.color = new Color(1, 1, 1, 1);
-        obj.GetComponent<InGame_Block>().Img_Block.transform.localPosition = Vector3.zero;
+        
         return obj.transform;
     }
 
@@ -143,7 +273,7 @@ public class InGame : MonoBehaviour
 
     public async Task Select_BlockAsync(Image block)
     {
-        GameUtils.Log($"{block.transform.parent.GetComponent<InGame_Block>().GetPos()} is selected");
+        GameUtils.Log($"{block.GetComponent<InGame_Block>().GetPos()} is selected");
 
         //취소
         if (block == selectedBlock)
@@ -156,16 +286,16 @@ public class InGame : MonoBehaviour
         //변경
         if (selectedBlock != null)
         {
-            var Clicked_Block_pos = block.transform.parent.GetComponent<InGame_Block>().GetPos();
-            var Selected_Block_pos = selectedBlock.transform.parent.GetComponent<InGame_Block>().GetPos();
+            var Clicked_Block_pos = block.GetComponent<InGame_Block>().GetPos();
+            var Selected_Block_pos = selectedBlock.GetComponent<InGame_Block>().GetPos();
 
             bool canChange = Mathf.Abs(Clicked_Block_pos.x - Selected_Block_pos.x) <= 0 || Mathf.Abs(Clicked_Block_pos.y - Selected_Block_pos.y) <= 0;
 
 
             if (canChange)
             {
-                InGame_Block block_1 = selectedBlock.transform.parent.GetComponent<InGame_Block>();
-                InGame_Block block_2 = block.transform.parent.GetComponent<InGame_Block>();
+                InGame_Block block_1 = selectedBlock.GetComponent<InGame_Block>();
+                InGame_Block block_2 = block.GetComponent<InGame_Block>();
 
                 StartCoroutine(Block_Swap(block_1, block_2));
                 
@@ -185,43 +315,44 @@ public class InGame : MonoBehaviour
 
     public void Drop_Down()
     {
+        GameUtils.Log("drop down");
+
         for (int i = blocks.Count - 1; i >= 0; i--)
         {
-            if (blocks[i].Img_Block.sprite != null)
+            if (blocks[i].gameObject.activeSelf == true)
                 continue;
 
-            InGame_Block up = null, left = null, right = null;
+            List<InGame_Block> vertical = new List<InGame_Block>();
 
-            for (int change_index = i - 1; change_index > 0; change_index--)
+            //vertical.Add(blocks[i]);
+
+            foreach (var block in blocks)
             {
-                if (blocks[change_index].GetPos().y + 1 != blocks[i].GetPos().y)
-                    continue;
-
-                if (blocks[change_index].GetPos().x == blocks[i].GetPos().x)
-                    up = blocks[change_index];
-
-                if (blocks[change_index].GetPos().x + 1 == blocks[i].GetPos().x)
-                    left = blocks[change_index];
-
-                if (blocks[change_index].GetPos().x - 1 == blocks[i].GetPos().x)
-                    right = blocks[change_index];
+                if (block.GetPos().x.Equals(blocks[i].GetPos().x) && blocks[i].GetPos().y < block.GetPos().y)
+                {
+                    vertical.Add(block);
+                }
             }
 
-            if (up != null)
+            blocks[i].transform.localPosition = new Vector2(blocks[i].transform.localPosition.x                                                                                                                                                                                                                , (stage.Height + 1) * 32);
+            blocks[i].SetNormalBlock();
+
+
+            foreach (var down in vertical)
             {
-                continue;
+                //down.GetComponent<Image>().color = Color.gray;
+                down.gameObject.SetActive(true);
+
+                down.name = $"Tile_{down.GetComponent<InGame_Block>().GetPos() + Vector2.down}";
+
+
+                down.transform.DOMove(down.transform.position + Vector3.down * 64, 0.2f, true);
             }
 
-            if (left != null)
-            {
-                continue;
-            }
-
-            if (right != null)
-            {
-                continue;
-            }
         }
+
+
+
     }
 
 
@@ -248,39 +379,44 @@ public class InGame : MonoBehaviour
         bool result = false;
 
         #region 가로 체크
-
-        List<InGame_Block> horizon = new List<InGame_Block>();
-
+        
+        InGame_Block[] horizon_arr = new InGame_Block[stage.Width];
+        
         foreach (var tile in blocks)
         {
             if (tile.GetPos().y != block.GetPos().y)
                 continue;
 
-            //GameUtils.Log($"{ tile.Img_Block.sprite.name}");
+            int index = (int)tile.GetPos().x + (int) (stage.Width / 2);
+            horizon_arr[index] = tile;
+        }
 
-            if (tile.GetIndex() != block.GetIndex() || block.GetIndex() < 0 )
+
+        List<InGame_Block> H_clearBlock = new List<InGame_Block>();
+        for(int i = 0; i < stage.Width; i++)
+        {
+
+            if (horizon_arr[i].GetIndex() != block.GetIndex())
             {
-                if (horizon.Count < 3)
-                    horizon.Clear();
+                if (H_clearBlock.Count < 3)
+                    H_clearBlock.Clear();
 
                 continue;
             }
 
-            horizon.Add(tile);
-
+            H_clearBlock.Add(horizon_arr[i]);
         }
 
-        if (horizon.Count < 3)
-            horizon.Clear();
+        if (H_clearBlock.Count < 3)
+            H_clearBlock.Clear();
 
         else
         {
-            GameUtils.Log($"[{block.GetPos()}] 가로 완성 ({horizon.Count })개 / {block.Img_Block.sprite.name}");
+            GameUtils.Log($"[{block.GetPos()}] 가로 완성 ({H_clearBlock.Count })개 / {block.Img_Block.sprite.name}");
 
-            foreach (var img in horizon)
+            foreach (var img in H_clearBlock)
             {
                 StartCoroutine(shake(img));
-
             }
 
             result = true;
@@ -290,40 +426,49 @@ public class InGame : MonoBehaviour
 
         #endregion
 
-
         #region 세로 체크
 
-        List<InGame_Block> vertical = new List<InGame_Block>();
+        InGame_Block[] vertical_arr = new InGame_Block[stage.Height];
 
         foreach (var tile in blocks)
         {
             if (tile.GetPos().x != block.GetPos().x)
                 continue;
 
-            //GameUtils.Log($"{ tile.Img_Block.sprite.name}");
+            int index = (int)tile.GetPos().y + (int)(stage.Height/ 2);
+            vertical_arr[index] = tile;
+        }
 
-            if (tile.GetIndex() != block.GetIndex())
+
+        List<InGame_Block> V_clearBlock = new List<InGame_Block>();
+        for (int i = 0; i < stage.Height; i++)
+        {
+
+            if (vertical_arr[i].GetIndex() != block.GetIndex())
             {
-                if (vertical.Count < 3)
-                    vertical.Clear();
+                if (V_clearBlock.Count < 3)
+                    V_clearBlock.Clear();
 
                 continue;
             }
 
-            vertical.Add(tile);
-
+            V_clearBlock.Add(vertical_arr[i]);
         }
 
-        if (vertical.Count < 3)
-            vertical.Clear();
+        if (V_clearBlock.Count < 3)
+            V_clearBlock.Clear();
 
         else
         {
-            GameUtils.Log($"[{block.GetPos()}] 세로 완성 ({vertical.Count })개 / {block.Img_Block.sprite.name}");
+            GameUtils.Log($"[{block.GetPos()}] 세로 완성 ({V_clearBlock.Count })개 / {block.Img_Block.sprite.name}");
+
+            foreach (var img in V_clearBlock)
+            {
+                StartCoroutine(shake(img));
+            }
+
             result = true;
         }
-
-
 
         #endregion
 
@@ -345,7 +490,7 @@ public class InGame : MonoBehaviour
 
 
         block.Img_Block.sprite = null;
-        block.Img_Block.color = new Color(1, 1, 1, 0.0f);
+        block.gameObject.SetActive(false);
         InGame_Block up = null, left = null, right = null;
         for (int i = 0; i < blocks.Count; i++)
         {
@@ -360,43 +505,21 @@ public class InGame : MonoBehaviour
                 right = blocks[i];
         }
 
-        if (up != null)
-        {
-            StartCoroutine(Block_Swap(block, up));
-            GameUtils.Log("UP");
-            yield break;
-        }
-        if (left != null)
-        {
-            GameUtils.Log("LEFT");
-            yield break;
-        }
-        if (right != null)
-        {
-            GameUtils.Log("RIGHT");
-            yield break;
-        }
     }
 
     public IEnumerator Block_Swap(InGame_Block from, InGame_Block to,bool notchange = false,float duration = 0.2f)
     {
-
         var time = System.DateTime.Now;
 
+        from.transform.DOMove(to.Img_Block.transform.position, duration);
+        to.transform.DOMove(from.Img_Block.transform.position, duration);
 
-        from.Img_Block.transform.DOMove(to.Img_Block.transform.position, duration);
-        to.Img_Block.transform.DOMove(from.Img_Block.transform.position, duration);
+        var nameTemp = from.name;
+        from.name = to.name;
+        to.name = nameTemp;
 
-        to.Img_Block.transform.SetParent(from.transform);
-        from.Img_Block.transform.SetParent(to.transform);
-
-        var temp = from.Img_Block;
-        from.Img_Block = to.Img_Block;
-        to.Img_Block = temp;
-
-        to.GetComponent<Button>().targetGraphic = to.Img_Block;
-        from.GetComponent<Button>().targetGraphic = from.Img_Block;
-
+        //to.GetComponent<Button>().targetGraphic = to.Img_Block;
+        //from.GetComponent<Button>().targetGraphic = from.Img_Block;
 
         yield return new WaitForSeconds(duration);
 
